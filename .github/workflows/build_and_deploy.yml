@@ -36,7 +36,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18.18.2
+          node-version: 20.*
           cache: "yarn"
 
       - name: Install, test and build
