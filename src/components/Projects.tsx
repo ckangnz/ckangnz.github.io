@@ -1,5 +1,6 @@
 import { CSSProperties, useState } from "react";
 import { Project, projects } from "../data/resume";
+import Icon from "./Icon";
 import Reveal from "./Reveal";
 import SceneHeader from "./SceneHeader";
 
@@ -27,7 +28,10 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
               onClick={() => setLive(true)}
             >
               <span className="device-poster-name">{project.name}</span>
-              <span className="device-poster-cta">▶ Load live preview</span>
+              <span className="device-poster-cta">
+                <Icon name="play" />
+                Load live preview
+              </span>
             </button>
           )}
         </div>
@@ -48,9 +52,11 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
           </ul>
           <div className="project-links">
             <a className="button button-primary" href={project.url}>
-              Open app ↗
+              Open app
+              <Icon name="external" />
             </a>
             <a className="button" href={project.repo}>
+              <Icon name="code" />
               Source
             </a>
           </div>

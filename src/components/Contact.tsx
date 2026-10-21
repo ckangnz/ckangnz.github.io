@@ -1,4 +1,5 @@
 import { contact } from "../data/resume";
+import Icon from "./Icon";
 
 const Contact = () => (
   <section id="contact" className="scene scene-contact dark">
@@ -10,15 +11,21 @@ const Contact = () => (
     </p>
     <div className="contact-links">
       <a className="button button-primary" href={`mailto:${contact.email}`}>
+        <Icon name="mail" />
         {contact.email}
       </a>
       <a className="button" href={contact.linkedin}>
-        LinkedIn ↗
+        <Icon name="linkedin" />
+        LinkedIn
+        <Icon name="external" className="icon-small" />
       </a>
       <a className="button" href={contact.github}>
-        GitHub ↗
+        <Icon name="github" />
+        GitHub
+        <Icon name="external" className="icon-small" />
       </a>
       <button type="button" className="button" onClick={() => window.print()}>
+        <Icon name="printer" />
         Print / save as PDF
       </button>
     </div>

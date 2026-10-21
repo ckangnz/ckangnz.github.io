@@ -334,7 +334,7 @@ export const stats: Stat[] = [
     suffix: "+ yrs",
     label: "shipping software",
     detail: "From agency websites in 2017 to the Atlassian Design System",
-    org: "2017 → now",
+    org: "2017–now",
   },
   {
     value: 2,

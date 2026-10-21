@@ -1,5 +1,6 @@
 import { contact } from "../data/resume";
 import CkMark from "./CkMark";
+import Icon from "./Icon";
 import MarkerField from "./MarkerField";
 
 const NAME = ["Chris", "Kang"];
@@ -53,7 +54,8 @@ const Hero = () => (
             View experience
           </a>
           <a className="button" href="#journey">
-            ▶ My journey
+            <Icon name="play" />
+            My journey
           </a>
         </div>
       </div>

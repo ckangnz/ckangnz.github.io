@@ -10,10 +10,12 @@ import {
   tracks,
 } from "../data/resume";
 import { useReducedMotion } from "../hooks/useReducedMotion";
+import Icon from "./Icon";
 import SceneHeader from "./SceneHeader";
 
 const SPAN = TIMELINE_END - TIMELINE_START;
 const PLAY_DURATION_MS = 16000;
+const TAP_SLOP = 8;
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const TRACK_PRIORITY: TrackId[] = ["eng", "vfx", "motion", "learn"];
 
@@ -85,6 +87,7 @@ const Timeline = () => {
   const [playing, setPlaying] = useState(false);
   const surfaceRef = useRef<HTMLDivElement>(null);
   const draggingRef = useRef(false);
+  const tapRef = useRef<{ x: number; y: number } | null>(null);
   const reduced = useReducedMotion();
 
   const layout = useMemo(
@@ -133,7 +136,12 @@ const Timeline = () => {
   };
 
   const onPointerDown = (event: PointerEvent<HTMLDivElement>) => {
-    if ((event.target as HTMLElement).closest(".clip")) return;
+    const target = event.target as HTMLElement;
+    if (target.closest(".clip")) return;
+    if (event.pointerType === "touch" && !target.closest(".playhead")) {
+      tapRef.current = { x: event.clientX, y: event.clientY };
+      return;
+    }
     draggingRef.current = true;
     setPlaying(false);
     event.currentTarget.setPointerCapture?.(event.pointerId);
@@ -144,7 +152,18 @@ const Timeline = () => {
     if (draggingRef.current) scrubTo(timeFromPointer(event.clientX));
   };
 
-  const onPointerUp = () => {
+  const onPointerUp = (event: PointerEvent<HTMLDivElement>) => {
+    const tap = tapRef.current;
+    tapRef.current = null;
+    if (tap && Math.hypot(event.clientX - tap.x, event.clientY - tap.y) < TAP_SLOP) {
+      setPlaying(false);
+      scrubTo(timeFromPointer(event.clientX));
+    }
+    draggingRef.current = false;
+  };
+
+  const onPointerCancel = () => {
+    tapRef.current = null;
     draggingRef.current = false;
   };
 
@@ -173,7 +192,7 @@ const Timeline = () => {
     <section id="journey" className="scene dark">
       <SceneHeader
         scene="04"
-        kicker="The journey · 2009 → now"
+        kicker="The journey · 2009–now"
         title="From frames to code."
       />
       <ol className="chapters">
@@ -199,12 +218,21 @@ const Timeline = () => {
             onClick={() => setPlaying((p) => !p)}
             aria-pressed={playing}
           >
-            {playing ? "❚❚ Pause" : "▶ Play"}
+            <Icon name={playing ? "pause" : "play"} />
+            {playing ? "Pause" : "Play"}
           </button>
           <span className="nle-readout" aria-live="polite">
             {formatDate(time)}
           </span>
-          <span className="nle-hint">← → to scrub · shift for years</span>
+          <span className="nle-hint">
+            <kbd>
+              <Icon name="arrow-left" />
+            </kbd>
+            <kbd>
+              <Icon name="arrow-right" />
+            </kbd>
+            to scrub · <kbd>Shift</kbd> for years
+          </span>
         </div>
 
         <div className="nle-scroll">
@@ -229,7 +257,7 @@ const Timeline = () => {
               onPointerDown={onPointerDown}
               onPointerMove={onPointerMove}
               onPointerUp={onPointerUp}
-              onPointerCancel={onPointerUp}
+              onPointerCancel={onPointerCancel}
             >
               <div className="nle-gridlines" aria-hidden="true">
                 {years.map((year) => (

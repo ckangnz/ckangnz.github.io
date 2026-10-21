@@ -382,6 +382,36 @@ code {
   animation: fade-up 0.9s 2s var(--ease-practical) forwards;
 }
 
+.icon {
+  width: 1.1em;
+  height: 1.1em;
+  flex-shrink: 0;
+}
+
+.icon-small {
+  width: 0.85em;
+  height: 0.85em;
+}
+
+kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  margin-right: 3px;
+  padding: 0 4px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  font: inherit;
+  font-size: 10px;
+}
+
+kbd .icon {
+  width: 11px;
+  height: 11px;
+}
+
 .button {
   display: inline-flex;
   align-items: center;
@@ -544,6 +574,10 @@ code {
 }
 
 .nle-play {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   min-width: 92px;
   padding: 6px 12px;
   border: 0;
@@ -567,6 +601,9 @@ code {
 }
 
 .nle-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
   margin-left: auto;
   color: var(--text-faint);
 }
@@ -611,7 +648,7 @@ code {
 .nle-surface {
   position: relative;
   cursor: col-resize;
-  touch-action: pan-y;
+  touch-action: pan-x pan-y;
   user-select: none;
 }
 
@@ -743,6 +780,16 @@ code {
   background: var(--red);
   z-index: 5;
   cursor: grab;
+  touch-action: none;
+}
+
+.playhead::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -14px;
+  width: 30px;
 }
 
 .playhead:focus-visible {
@@ -957,6 +1004,9 @@ code {
 }
 
 .device-poster-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   padding: 8px 14px;
   border-radius: var(--radius);
   background: var(--red);

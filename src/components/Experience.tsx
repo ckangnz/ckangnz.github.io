@@ -28,7 +28,7 @@ const Experience = () => {
     <section id="experience" className="scene">
       <SceneHeader
         scene="02"
-        kicker="Experience · 2017 → now"
+        kicker="Experience · 2017–now"
         title="Nine years, growing in scope."
       />
       <p className="scene-intro">
